@@ -2,159 +2,145 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dijital Eğitim Karargahı | Giriş</title>
     <style>
-        :root {
-            --glass: rgba(255, 255, 255, 0.2);
-            --border: rgba(255, 255, 255, 0.3);
-            --accent: #4facfe;
-        }
-
+        /* Tam Ekran ve Arka Plan Ayarları */
         body, html {
             margin: 0;
             padding: 0;
-            height: 100vh;
+            height: 100%;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: url('https://source.unsplash.com/1600x900/?education,space') no-repeat center center fixed;
-            background-size: cover;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            overflow-x: hidden;
         }
 
-        /* Glassmorphism Panel */
-        .main-card {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--border);
+        /* Responsive (Duyarlı) Cam Panel */
+        .login-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 25px;
             padding: 30px;
-            width: 350px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            color: white;
+            /* Genişlik Ayarı: Telefondan Bilgisayara Otomatik Uyum */
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
             text-align: center;
-            transition: 0.5s;
+            color: #ffffff;
+            box-sizing: border-box;
         }
 
-        h2 { margin-bottom: 20px; font-weight: 400; letter-spacing: 1px; }
+        h2 { 
+            margin-bottom: 25px; 
+            font-weight: 600; 
+            font-size: clamp(1.2rem, 5vw, 1.8rem); /* Ekran boyutuna göre başlık büyür/küçülür */
+        }
 
-        .input-group { text-align: left; margin-bottom: 15px; }
-        
-        label { font-size: 13px; margin-left: 5px; opacity: 0.9; }
+        .input-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
 
-        input[type="text"], input[type="password"] {
+        label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+            opacity: 0.9;
+        }
+
+        input {
             width: 100%;
             padding: 12px;
-            margin-top: 5px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
             box-sizing: border-box;
             outline: none;
             color: #333;
         }
 
-        .options-row {
+        /* Alt Seçenekler Satırı */
+        .extras {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 12px;
+            font-size: 13px;
             margin-bottom: 20px;
+            flex-wrap: wrap; /* Dar ekranlarda alt alta geçer */
+            gap: 10px;
         }
 
-        .options-row a { color: white; text-decoration: none; opacity: 0.8; }
-        .options-row a:hover { opacity: 1; text-decoration: underline; }
+        .extras a { color: #fff; text-decoration: none; opacity: 0.8; }
+
+        /* Buton Tasarımları */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s ease;
+            margin-bottom: 10px;
+        }
 
         .btn-primary {
             background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
-            color: white; border: none; padding: 14px;
-            border-radius: 12px; width: 100%; cursor: pointer;
-            font-weight: bold; font-size: 15px; margin-bottom: 10px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .btn-secondary {
             background: rgba(255, 255, 255, 0.15);
-            color: white; border: 1px solid var(--border);
-            padding: 10px; border-radius: 12px; width: 100%;
-            cursor: pointer; font-size: 13px;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        /* Seviye Tespit Ekranı (Gizli başlar) */
-        #seviye-tespit { display: none; }
+        .btn:hover { transform: scale(1.02); }
 
-        .blurred { filter: blur(20px); pointer-events: none; }
+        /* Tablet ve Telefonlar için Ekstra Ayarlar */
+        @media (max-width: 480px) {
+            .login-card { padding: 20px; }
+            h2 { margin-bottom: 15px; }
+            input { padding: 10px; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="main-card" id="login-container">
+    <div class="login-card">
         <h2>Karargah Girişi</h2>
         
         <div class="input-group">
-            <label>Kullanıcı Adı</label>
-            <input type="text" id="username" placeholder="Araştırmacı adın...">
+            <label>Araştırmacı Adı</label>
+            <input type="text" placeholder="Adınızı yazınız...">
         </div>
 
         <div class="input-group">
-            <label>Şifre</label>
-            <input type="password" id="password" placeholder="Parolanız...">
+            <label>Gizli Şifre</label>
+            <input type="password" placeholder="Şifrenizi yazınız...">
         </div>
 
-        <div class="options-row">
-            <label><input type="checkbox"> Beni Hatırla</label>
-            <a href="#" onclick="alert('Şifre sıfırlama talebiniz yöneticiye iletildi.')">Şifremi Unuttum</a>
+        <div class="extras">
+            <label style="cursor: pointer;"><input type="checkbox"> Beni Hatırla</label>
+            <a href="#">Şifremi Unuttum</a>
         </div>
 
-        <button class="btn-primary" onclick="normalGiris()">Sisteme Gir</button>
-        <button class="btn-secondary" onclick="karekodGiris()">Karekod ile Başla</button>
+        <button class="btn btn-primary">Sisteme Giriş Yap</button>
+        <button class="btn btn-secondary" onclick="alert('QR Okuyucu Açılıyor...')">Karekod ile Başla</button>
         
         <p style="font-size: 11px; margin-top: 15px; opacity: 0.7;">
             Her araştırmacı kendi yolculuğunun mimarıdır.
         </p>
     </div>
 
-    <div class="main-card" id="seviye-tespit">
-        <h3>Seviye Tespit Alanı</h3>
-        <p style="font-size: 14px;">Hoş geldin araştırmacı! Karargaha katılmadan önce senin seviyeni birlikte keşfedelim.</p>
-        
-        <div class="id-card" style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; margin: 15px 0;">
-            <p><strong>Soru:</strong> 10'dan önce hangi sayı gelir?</p>
-            <input type="text" id="level-ans" placeholder="Cevabınız...">
-        </div>
-
-        <button class="btn-primary" onclick="seviyeTamamla()">Testi Bitir ve Giriş Yap</button>
-    </div>
-
-    <script>
-        function normalGiris() {
-            const user = document.getElementById('username').value;
-            if(user) {
-                alert("Harika! " + user + ", karargah yükleniyor...");
-                // Menü açılma efekti için arka planı bulandırıyoruz
-                document.body.classList.add('blurred');
-            } else {
-                alert("Seni tanıyabilmemiz için bir isim girer misin?");
-            }
-        }
-
-        function karekodGiris() {
-            // Giriş panelini gizle, seviye tespiti göster
-            document.getElementById('login-container').style.display = 'none';
-            document.getElementById('seviye-tespit').style.display = 'block';
-        }
-
-        function seviyeTamamla() {
-            const ans = document.getElementById('level-ans').value;
-            if(ans === "9" || ans.toLowerCase() === "dokuz") {
-                alert("Seviye tespiti başarıyla tamamlandı. Giriş ekranına yönlendiriliyorsun.");
-                document.getElementById('seviye-tespit').style.display = 'none';
-                document.getElementById('login-container').style.display = 'block';
-            } else {
-                alert("Bu cevabı birlikte tekrar inceleyebiliriz, denemeye devam et!");
-            }
-        }
-    </script>
 </body>
 </html>
