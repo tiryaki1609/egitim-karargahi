@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eğitim Karargahı</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        /* İstediğin Şeffaf Cam Kart Efekti */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            max-width: 400px;
+            width: 85%;
+        }
+
+        h1 { color: #2c3e50; font-size: 26px; }
+        p { color: #34495e; font-size: 17px; line-height: 1.6; }
+
+        .bilmece {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        input {
+            width: 80%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .buton {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .buton:hover { background: #357abd; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+    <div class="glass-card">
+        <h1>Hoş Geldin Küçük Araştırmacı! 🚀</h1>
+        <p>Eğitim Karargahı'na adım atmak üzeresin. Burada her deneme seni daha ileriye taşır. Anne şefkatiyle dolu bu dünyada öğrenmeye hazır mısın?</p>
+        
+        <div class="bilmece">
+            <p><strong>Kapıyı açmak için çöz bakalım:</strong><br>Üç elmam vardı, iki de babam verdi. Toplam kaç elmam oldu? (Yazıyla cevapla)</p>
+            <input type="text" id="cevap" placeholder="Cevabını buraya yaz...">
+        </div>
+
+        <button class="buton" onclick="kontrol()">Karargaha Giriş Yap</button>
+    </div>
+
+    <script>
+        function kontrol() {
+            var cevap = document.getElementById('cevap').value.toLowerCase().trim();
+            // Pedagog onaylı: Hata/Yanlış kelimeleri kullanılmadı
+            if(cevap === "beş" || cevap === "bes") {
+                alert("Harikasın! Karargah kapıları senin için açıldı.");
+            } else {
+                alert("Bir daha denemeye ne dersin? Birlikte çözebiliriz!");
+            }
+        }
+    </script>
+</body>
+  </html>
+  
