@@ -3,93 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eğitim Karargahı</title>
+    <title>Dijital Eğitim Karargahı | Giriş</title>
     <style>
-        body {
-            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+        :root {
+            --glass: rgba(255, 255, 255, 0.2);
+            --border: rgba(255, 255, 255, 0.3);
+            --accent: #4facfe;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
+            background: url('https://source.unsplash.com/1600x900/?education,space') no-repeat center center fixed;
+            background-size: cover;
         }
 
-        /* İstediğin Şeffaf Cam Kart Efekti */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.2);
+        /* Glassmorphism Panel */
+        .main-card {
+            background: var(--glass);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid var(--border);
             border-radius: 25px;
-            padding: 35px;
-            text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-            max-width: 400px;
-            width: 85%;
-        }
-
-        h1 { color: #2c3e50; font-size: 26px; }
-        p { color: #34495e; font-size: 17px; line-height: 1.6; }
-
-        .bilmece {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 15px;
-            border-radius: 15px;
-            margin: 20px 0;
-        }
-
-        input {
-            width: 80%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            text-align: center;
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .buton {
-            background: #4a90e2;
+            padding: 30px;
+            width: 350px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 30px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 15px;
-            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+            text-align: center;
+            transition: 0.5s;
         }
 
-        .buton:hover { background: #357abd; transform: scale(1.05); }
+        h2 { margin-bottom: 20px; font-weight: 400; letter-spacing: 1px; }
+
+        .input-group { text-align: left; margin-bottom: 15px; }
+        
+        label { font-size: 13px; margin-left: 5px; opacity: 0.9; }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.85);
+            box-sizing: border-box;
+            outline: none;
+            color: #333;
+        }
+
+        .options-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .options-row a { color: white; text-decoration: none; opacity: 0.8; }
+        .options-row a:hover { opacity: 1; text-decoration: underline; }
+
+        .btn-primary {
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            color: white; border: none; padding: 14px;
+            border-radius: 12px; width: 100%; cursor: pointer;
+            font-weight: bold; font-size: 15px; margin-bottom: 10px;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: white; border: 1px solid var(--border);
+            padding: 10px; border-radius: 12px; width: 100%;
+            cursor: pointer; font-size: 13px;
+        }
+
+        /* Seviye Tespit Ekranı (Gizli başlar) */
+        #seviye-tespit { display: none; }
+
+        .blurred { filter: blur(20px); pointer-events: none; }
     </style>
 </head>
 <body>
 
-    <div class="glass-card">
-        <h1>Hoş Geldin Küçük Araştırmacı! 🚀</h1>
-        <p>Eğitim Karargahı'na adım atmak üzeresin. Burada her deneme seni daha ileriye taşır. Anne şefkatiyle dolu bu dünyada öğrenmeye hazır mısın?</p>
+    <div class="main-card" id="login-container">
+        <h2>Karargah Girişi</h2>
         
-        <div class="bilmece">
-            <p><strong>Kapıyı açmak için çöz bakalım:</strong><br>Üç elmam vardı, iki de babam verdi. Toplam kaç elmam oldu? (Yazıyla cevapla)</p>
-            <input type="text" id="cevap" placeholder="Cevabını buraya yaz...">
+        <div class="input-group">
+            <label>Kullanıcı Adı</label>
+            <input type="text" id="username" placeholder="Araştırmacı adın...">
         </div>
 
-        <button class="buton" onclick="kontrol()">Karargaha Giriş Yap</button>
+        <div class="input-group">
+            <label>Şifre</label>
+            <input type="password" id="password" placeholder="Parolanız...">
+        </div>
+
+        <div class="options-row">
+            <label><input type="checkbox"> Beni Hatırla</label>
+            <a href="#" onclick="alert('Şifre sıfırlama talebiniz yöneticiye iletildi.')">Şifremi Unuttum</a>
+        </div>
+
+        <button class="btn-primary" onclick="normalGiris()">Sisteme Gir</button>
+        <button class="btn-secondary" onclick="karekodGiris()">Karekod ile Başla</button>
+        
+        <p style="font-size: 11px; margin-top: 15px; opacity: 0.7;">
+            Her araştırmacı kendi yolculuğunun mimarıdır.
+        </p>
+    </div>
+
+    <div class="main-card" id="seviye-tespit">
+        <h3>Seviye Tespit Alanı</h3>
+        <p style="font-size: 14px;">Hoş geldin araştırmacı! Karargaha katılmadan önce senin seviyeni birlikte keşfedelim.</p>
+        
+        <div class="id-card" style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; margin: 15px 0;">
+            <p><strong>Soru:</strong> 10'dan önce hangi sayı gelir?</p>
+            <input type="text" id="level-ans" placeholder="Cevabınız...">
+        </div>
+
+        <button class="btn-primary" onclick="seviyeTamamla()">Testi Bitir ve Giriş Yap</button>
     </div>
 
     <script>
-        function kontrol() {
-            var cevap = document.getElementById('cevap').value.toLowerCase().trim();
-            // Pedagog onaylı: Hata/Yanlış kelimeleri kullanılmadı
-            if(cevap === "beş" || cevap === "bes") {
-                alert("Harikasın! Karargah kapıları senin için açıldı.");
+        function normalGiris() {
+            const user = document.getElementById('username').value;
+            if(user) {
+                alert("Harika! " + user + ", karargah yükleniyor...");
+                // Menü açılma efekti için arka planı bulandırıyoruz
+                document.body.classList.add('blurred');
             } else {
-                alert("Bir daha denemeye ne dersin? Birlikte çözebiliriz!");
+                alert("Seni tanıyabilmemiz için bir isim girer misin?");
+            }
+        }
+
+        function karekodGiris() {
+            // Giriş panelini gizle, seviye tespiti göster
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('seviye-tespit').style.display = 'block';
+        }
+
+        function seviyeTamamla() {
+            const ans = document.getElementById('level-ans').value;
+            if(ans === "9" || ans.toLowerCase() === "dokuz") {
+                alert("Seviye tespiti başarıyla tamamlandı. Giriş ekranına yönlendiriliyorsun.");
+                document.getElementById('seviye-tespit').style.display = 'none';
+                document.getElementById('login-container').style.display = 'block';
+            } else {
+                alert("Bu cevabı birlikte tekrar inceleyebiliriz, denemeye devam et!");
             }
         }
     </script>
 </body>
-  </html>
-  
+</html>
