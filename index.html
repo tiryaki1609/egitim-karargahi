@@ -3,148 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dijital Eğitim Karargahı</title>
+    <title>Dijital Eğitim Karargahı | Keşif Kapısı</title>
     <style>
-        /* Mimar Tasarım Dili: Glassmorphism */
+        /* Mimarın Görsel Anayasası: Glassmorphism */
         body, html {
             margin: 0; padding: 0; height: 100%; width: 100%;
+            display: flex; align-items: center; justify-content: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            overflow-x: hidden; color: white;
+            overflow: hidden; color: white;
         }
 
-        .page {
-            display: none; height: 100vh; width: 100%;
-            align-items: center; justify-content: center;
-            position: absolute; transition: 0.5s;
-        }
-
+        .page { display: none; width: 100%; height: 100%; align-items: center; justify-content: center; position: absolute; transition: 0.5s; }
         .active { display: flex; flex-direction: column; }
 
-        /* Ortak Kart Yapısı */
-        .glass-card {
+        .discovery-card {
             background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 30px;
-            padding: clamp(20px, 5vw, 40px);
-            width: 90%; max-width: 400px;
+            border-radius: 30px; padding: clamp(20px, 5vw, 40px);
+            width: 90%; max-width: 450px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
             text-align: center; box-sizing: border-box;
         }
 
-        /* Giriş Elemanları */
-        h2 { margin-bottom: 15px; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        h2, h3 { color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.3); margin-top: 0; }
         .pedagog-message {
             font-size: 14px; background: rgba(255, 255, 255, 0.12);
-            padding: 12px; border-radius: 15px; margin-bottom: 25px; line-height: 1.5;
+            padding: 12px; border-radius: 15px; margin-bottom: 20px; line-height: 1.5;
+            color: #e0f2f1; border: 1px dashed rgba(255, 255, 255, 0.2);
         }
+
+        /* Giriş ve Panel Elemanları */
+        .input-group { text-align: left; margin-bottom: 15px; width: 100%; }
+        label { display: block; font-size: 13px; margin-bottom: 6px; margin-left: 8px; font-weight: 500; }
         input {
-            width: 100%; padding: 14px; margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.95); border: none;
-            border-radius: 15px; font-size: 16px; color: #2c3e50;
+            width: 100%; padding: 14px; background: rgba(255, 255, 255, 0.95);
+            border: none; border-radius: 15px; font-size: 16px; color: #2c3e50;
             box-sizing: border-box; outline: none;
         }
 
         /* Butonlar */
-        .btn {
+        .btn-action {
             width: 100%; padding: 16px; border: none; border-radius: 20px;
             font-size: 18px; font-weight: bold; cursor: pointer;
-            transition: transform 0.2s; margin-top: 10px;
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            color: white; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); transition: 0.2s;
         }
-        .btn-main { background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%); color: white; }
-        .btn-qr { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: white; font-size: 14px; }
-        .btn:active { transform: scale(0.97); }
+        .btn-action:active { transform: scale(0.97); }
+        .btn-qr { margin-top: 15px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); font-size: 14px; }
 
-        /* Dashboard Özel: Kimlik Kartı */
-        .profile-header { text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 15px; }
-        .profile-header h3 { margin: 0; color: #00f2fe; }
+        /* Ekonomi ve Video Alanı */
+        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
+        .stat-box { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
+        .stat-val { display: block; font-size: 20px; font-weight: bold; color: #fccb90; }
         
-        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .stat-box { background: rgba(255,255,255,0.08); padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
-        .stat-val { display: block; font-size: 22px; font-weight: bold; color: #fccb90; }
-        .stat-lbl { font-size: 10px; opacity: 0.7; letter-spacing: 1px; }
-
-        .mission-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .mission-btn {
-            background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1); font-size: 13px; font-weight: 500;
+        #video-stream {
+            width: 100%; height: 200px; background: #121212; border-radius: 15px;
+            display: flex; align-items: center; justify-content: center; margin: 15px 0;
+            border: 1px solid #00f2fe; color: #00f2fe; font-size: 13px;
         }
 
-        .blur-effect { filter: blur(15px); pointer-events: none; }
+        .blur-bg { filter: blur(15px); pointer-events: none; }
+        .mic-active { animation: pulse 1.5s infinite; background: #ff4b2b !important; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div id="loginPage" class="page active">
-        <div class="glass-card" id="card-1">
+        <div class="discovery-card" id="main-card">
             <h2>Keşif Kapısı</h2>
-            <div class="pedagog-message">
-                "Hoş geldin araştırmacı! Bugün hangi yeni bilgiyi keşfedeceğiz? Karargah seni bekliyor."
+            <div class="pedagog-message">"Hoş geldin araştırmacı! Bugün hangi yeni bilgiyi keşfedeceğiz? Karargah seni bekliyor."</div>
+            
+            <div class="input-group">
+                <label>Araştırmacı Adı</label>
+                <input type="text" id="username" placeholder="İsmini buraya yazabilirsin">
             </div>
-            <input type="text" id="username" placeholder="İsmini buraya yazabilirsin">
-            <input type="password" id="password" placeholder="Şifreni buraya yazabilirsin">
-            
-            <button class="btn btn-main" onclick="macerayaBasla()">Maceraya Başla</button>
-            <button class="btn btn-qr" onclick="alert('Karekod modülü hazırlanıyor!')">Karekod ile Seviye Tespit</button>
-            
-            <p style="font-size: 11px; margin-top: 20px; opacity: 0.6;">Senin gelişimin, bizim en büyük mutluluğumuz.</p>
+            <div class="input-group">
+                <label>Gizli Anahtar (Şifre)</label>
+                <input type="password" id="password" placeholder="Şifreni buraya yazabilirsin">
+            </div>
+
+            <button class="btn-action" onclick="baslat()">Maceraya Başla</button>
+            <button class="btn-action btn-qr" onclick="seviyeTespit()">Karekod ile Seviye Tespit</button>
+            <p style="font-size: 11px; margin-top: 20px; opacity: 0.8;">Senin gelişimin, bizim en büyük mutluluğumuz.</p>
         </div>
     </div>
 
     <div id="dashPage" class="page">
-        <div class="glass-card">
-            <div class="profile-header">
-                <small style="opacity:0.7">Hoş Geldin,</small>
-                <h3 id="userDisplay">Araştırmacı</h3>
-                <small style="font-size:11px">Seviye: 1. Sınıf Kaşif</small>
+        <div class="discovery-card">
+            <h3 id="displayUser" style="color: #00f2fe; margin-bottom: 5px;">Araştırmacı</h3>
+            <p style="font-size: 12px; margin-bottom: 15px;">1. Sınıf Kaşif | Karargah Çevrimiçi</p>
+
+            <div class="stats">
+                <div class="stat-box"><span class="stat-val">1250</span><small>XP PUANI</small></div>
+                <div class="stat-box"><span class="stat-val">45</span><small>PUL BAKİYE</small></div>
             </div>
 
-            <div class="stats-container">
-                <div class="stat-box">
-                    <span class="stat-val">1250</span>
-                    <span class="stat-lbl">XP PUANI</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-val">45</span>
-                    <span class="stat-lbl">PUL BAKİYE</span>
-                </div>
+            <div id="video-stream">🛡️ Güvenli Keşif Hattı Aktif</div>
+
+            <div class="controls" style="display: flex; gap: 10px; margin-top: 10px;">
+                <button onclick="toggleMic()" id="mic-btn" style="flex:1; padding: 12px; border-radius: 12px; border:none; background:#4facfe; color:white; font-weight:bold;">Sesi Aç</button>
+                <button onclick="endCall()" style="flex:1; padding: 12px; border-radius: 12px; border:none; background:#ff4b2b; color:white; font-weight:bold;">Keşfi Bitir</button>
             </div>
 
-            <div class="mission-grid">
-                <div class="mission-btn" onclick="alert('İsim Şehir Yarışması Başlıyor!')">📚<br>İsim Şehir</div>
-                <div class="mission-btn" onclick="alert('PUL Hesaplama Görevi!')">🧮<br>PUL Hesapla</div>
-                <div class="mission-btn" onclick="alert('7 Bölge Keşfi!')">🗺️<br>Keşif Haritası</div>
-                <div class="mission-btn" onclick="alert('Market Açılıyor!')">🛒<br>Karargah Market</div>
-            </div>
-
-            <button class="btn btn-qr" onclick="cikisYap()" style="margin-top:20px; font-size:11px;">Güvenli Çıkış</button>
+            <div class="pedagog-message" style="margin-top: 20px; font-size: 12px;">"Bu görüşme sadece şu an için var. Bittikten sonra her şey Yıldız Tozu olup uçacak."</div>
         </div>
     </div>
 
     <script>
-        function macerayaBasla() {
+        function baslat() {
             const user = document.getElementById('username').value;
-            if(user.trim() !== "") {
-                document.getElementById('userDisplay').innerText = user;
-                document.getElementById('card-1').classList.add('blur-effect');
-                
+            if(user) {
+                document.getElementById('displayUser').innerText = user;
+                document.getElementById('main-card').classList.add('blur-bg');
                 setTimeout(() => {
                     document.getElementById('loginPage').classList.remove('active');
                     document.getElementById('dashPage').classList.add('active');
-                    document.getElementById('card-1').classList.remove('blur-effect');
-                }, 800);
+                    document.getElementById('main-card').classList.remove('blur-bg');
+                }, 1000);
             } else {
                 alert("Seni tanıyabilmemiz için ismini yazmaya ne dersin?");
             }
         }
 
-        function cikisYap() {
-            document.getElementById('dashPage').classList.remove('active');
-            document.getElementById('loginPage').classList.add('active');
+        function toggleMic() {
+            const btn = document.getElementById('mic-btn');
+            btn.classList.toggle('mic-active');
+            btn.innerText = btn.classList.contains('mic-active') ? "Sesi Kapat" : "Sesi Aç";
         }
-    </script>
 
+        function endCall() {
+            if(confirm("Görüşmeyi bitirmek ve tüm izleri 'Yıldız Tozu' ile silmek ister misin?")) {
+                document.getElementById('video-stream').innerHTML = "✨ Yıldız Tozu Protokolü Devrede...";
+                setTimeout(() => { location.reload(); }, 1500);
+            }
+        }
+
+        function seviyeTespit() { alert("Seviye tespit modülü hazırlanıyor!"); }
+    </script>
 </body>
 </html>
