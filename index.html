@@ -3,146 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dijital Eğitim Karargahı</title>
+    <title>Dijital Eğitim Karargahı | Keşif Kapısı</title>
     <style>
-        /* Mimar Tasarım Dili: Glassmorphism */
+        /* Temel Ayarlar ve Arka Plan */
         body, html {
             margin: 0; padding: 0; height: 100%; width: 100%;
+            display: flex; align-items: center; justify-content: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            overflow-x: hidden; color: white;
+            overflow: hidden;
         }
 
-        .page {
-            display: none; height: 100vh; width: 100%;
-            align-items: center; justify-content: center;
-            position: absolute; transition: 0.5s;
-        }
-
-        .active { display: flex; flex-direction: column; }
-
-        /* Ortak Kart Yapısı */
-        .glass-card {
+        /* Responsive (Duyarlı) Glassmorphism Panel */
+        .discovery-card {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 30px;
             padding: clamp(20px, 5vw, 40px);
-            width: 90%; max-width: 400px;
+            width: 90%;
+            max-width: 400px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            text-align: center; box-sizing: border-box;
+            text-align: center;
+            color: #ffffff;
+            box-sizing: border-box;
+            transition: all 0.5s ease;
         }
 
-        /* Giriş Elemanları */
-        h2 { margin-bottom: 15px; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        /* Başlık ve Teşvik Edici Not */
+        h2 {
+            color: #ffffff !important;
+            font-size: clamp(1.4rem, 6vw, 1.8rem);
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
         .pedagog-message {
-            font-size: 14px; background: rgba(255, 255, 255, 0.12);
-            padding: 12px; border-radius: 15px; margin-bottom: 25px; line-height: 1.5;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 12px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            color: #e0f2f1;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
         }
+
+        /* Giriş Alanları */
+        .input-group { text-align: left; margin-bottom: 15px; }
+
+        label {
+            display: block; color: #ffffff !important;
+            font-size: 13px; margin-bottom: 6px; margin-left: 8px;
+            font-weight: 500;
+        }
+
         input {
-            width: 100%; padding: 14px; margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.95); border: none;
-            border-radius: 15px; font-size: 16px; color: #2c3e50;
+            width: 100%; padding: 14px;
+            background: rgba(255, 255, 255, 0.95) !important;
+            border: none; border-radius: 15px;
+            font-size: 16px; color: #2c3e50 !important;
             box-sizing: border-box; outline: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
+
+        /* Seçenekler Satırı */
+        .options {
+            display: flex; justify-content: space-between;
+            font-size: 12px; margin: 15px 5px 25px;
+            color: #ffffff;
+        }
+
+        .options a { color: #ffffff; text-decoration: none; opacity: 0.8; font-weight: bold; }
+        .options a:hover { opacity: 1; text-decoration: underline; }
 
         /* Butonlar */
-        .btn {
-            width: 100%; padding: 16px; border: none; border-radius: 20px;
+        .btn-action {
+            width: 100%; padding: 16px;
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            color: white !important; border: none; border-radius: 20px;
             font-size: 18px; font-weight: bold; cursor: pointer;
-            transition: transform 0.2s; margin-top: 10px;
-        }
-        .btn-main { background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%); color: white; }
-        .btn-qr { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: white; font-size: 14px; }
-        .btn:active { transform: scale(0.97); }
-
-        /* Dashboard Özel: Kimlik Kartı */
-        .profile-header { text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 15px; }
-        .profile-header h3 { margin: 0; color: #00f2fe; }
-        
-        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .stat-box { background: rgba(255,255,255,0.08); padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
-        .stat-val { display: block; font-size: 22px; font-weight: bold; color: #fccb90; }
-        .stat-lbl { font-size: 10px; opacity: 0.7; letter-spacing: 1px; }
-
-        .mission-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .mission-btn {
-            background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1); font-size: 13px; font-weight: 500;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .blur-effect { filter: blur(15px); pointer-events: none; }
+        .btn-action:active { transform: scale(0.97); }
+
+        .btn-qr {
+            margin-top: 15px; background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3); font-size: 14px;
+        }
+
+        /* Alt Bilgi */
+        .footer-note {
+            font-size: 11px; margin-top: 25px; opacity: 0.8; font-style: italic;
+        }
+
+        /* Arka Plan Bulanıklaştırma Efekti (Menü Açıldığında) */
+        .blur-bg { filter: blur(15px); pointer-events: none; }
+
+        .mic-active { animation: pulse 1.5s infinite; background: #ff4b2b !important; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div id="loginPage" class="page active">
-        <div class="glass-card" id="card-1">
-            <h2>Keşif Kapısı</h2>
+    <div class="discovery-card" id="main-card">
+        <h2>Keşif Kapısı</h2>
+
+        <div id="login-section">
             <div class="pedagog-message">
                 "Hoş geldin araştırmacı! Bugün hangi yeni bilgiyi keşfedeceğiz? Karargah seni bekliyor."
             </div>
-            <input type="text" id="username" placeholder="İsmini buraya yazabilirsin">
-            <input type="password" id="password" placeholder="Şifreni buraya yazabilirsin">
-            
-            <button class="btn btn-main" onclick="macerayaBasla()">Maceraya Başla</button>
-            <button class="btn btn-qr" onclick="alert('Karekod modülü hazırlanıyor!')">Karekod ile Seviye Tespit</button>
-            
-            <p style="font-size: 11px; margin-top: 20px; opacity: 0.6;">Senin gelişimin, bizim en büyük mutluluğumuz.</p>
+
+            <div class="input-group">
+                <label>Araştırmacı Adı</label>
+                <input type="text" id="username" placeholder="İsmini buraya yazabilirsin">
+            </div>
+
+            <div class="input-group">
+                <label>Gizli Anahtar (Şifre)</label>
+                <input type="password" id="password" placeholder="Şifreni buraya yazabilirsin">
+            </div>
+
+            <div class="options">
+                <label style="cursor:pointer; display: flex; align-items: center; gap: 5px;">
+                    <input type="checkbox"> Beni Tanı
+                </label>
+                <a href="#" onclick="alert('Şifre hatırlatma talebiniz mimara iletildi.')">Şifremi Hatırlat</a>
+            </div>
+
+            <button class="btn-action" onclick="baslat()">Maceraya Başla</button>
+            <button class="btn-action btn-qr" onclick="seviyeTespit()">Karekod ile Seviye Tespit</button>
         </div>
-    </div>
 
-    <div id="dashPage" class="page">
-        <div class="glass-card">
-            <div class="profile-header">
-                <small style="opacity:0.7">Hoş Geldin,</small>
-                <h3 id="userDisplay">Araştırmacı</h3>
-                <small style="font-size:11px">Seviye: 1. Sınıf Kaşif</small>
-            </div>
-
-            <div class="stats-container">
-                <div class="stat-box">
-                    <span class="stat-val">1250</span>
-                    <span class="stat-lbl">XP PUANI</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-val">45</span>
-                    <span class="stat-lbl">PUL BAKİYE</span>
-                </div>
-            </div>
-
-            <div class="mission-grid">
-                <div class="mission-btn" onclick="alert('İsim Şehir Yarışması Başlıyor!')">📚<br>İsim Şehir</div>
-                <div class="mission-btn" onclick="alert('PUL Hesaplama Görevi!')">🧮<br>PUL Hesapla</div>
-                <div class="mission-btn" onclick="alert('7 Bölge Keşfi!')">🗺️<br>Keşif Haritası</div>
-                <div class="mission-btn" onclick="alert('Market Açılıyor!')">🛒<br>Karargah Market</div>
-            </div>
-
-            <button class="btn btn-qr" onclick="cikisYap()" style="margin-top:20px; font-size:11px;">Güvenli Çıkış</button>
-        </div>
+        <p class="footer-note">
+            Senin gelişimin, bizim en büyük mutluluğumuz.
+        </p>
     </div>
 
     <script>
-        function macerayaBasla() {
+        function baslat() {
             const user = document.getElementById('username').value;
-            if(user.trim() !== "") {
-                document.getElementById('userDisplay').innerText = user;
-                document.getElementById('card-1').classList.add('blur-effect');
-                
+            if(user) {
+                alert("Harika " + user + "! Karargaha girişin hazırlanıyor...");
+                document.getElementById('main-card').classList.add('blur-bg');
                 setTimeout(() => {
-                    document.getElementById('loginPage').classList.remove('active');
-                    document.getElementById('dashPage').classList.add('active');
-                    document.getElementById('card-1').classList.remove('blur-effect');
-                }, 800);
+                    window.location.href = 'dashboard.php';
+                }, 1000);
             } else {
-                alert("Seni tanıyabilmemiz için ismini yazmaya ne dersin?");
+                alert("Seni tanıyabilmemiz için ismini yazmaya ne dersin? Her şey senin için daha keyifli olacak!");
             }
         }
 
-        function cikisYap() {
-            document.getElementById('dashPage').classList.remove('active');
-            document.getElementById('loginPage').classList.add('active');
+        function seviyeTespit() {
+            alert("Seviye tespit modülü hazırlanıyor. Birazdan yeni bir keşfe başlayacağız!");
         }
     </script>
 
