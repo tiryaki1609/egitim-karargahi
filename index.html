@@ -3,145 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dijital Eğitim Karargahı | Keşif Kapısı</title>
+    <title>Dijital Eğitim Karargahı | Keşif Merkezi</title>
     <style>
-        /* Mimarın Görsel Anayasası: Glassmorphism */
-        body, html {
-            margin: 0; padding: 0; height: 100%; width: 100%;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            overflow: hidden; color: white;
-        }
-
-        .page { display: none; width: 100%; height: 100%; align-items: center; justify-content: center; position: absolute; transition: 0.5s; }
+        /* Mimarın Temel Tasarım Kuralları */
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; overflow-x: hidden; }
+        .page { display: none; min-height: 100vh; width: 100%; align-items: center; justify-content: center; position: absolute; padding: 20px; box-sizing: border-box; }
         .active { display: flex; flex-direction: column; }
-
-        .discovery-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 30px; padding: clamp(20px, 5vw, 40px);
-            width: 90%; max-width: 450px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            text-align: center; box-sizing: border-box;
-        }
-
-        h2, h3 { color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.3); margin-top: 0; }
-        .pedagog-message {
-            font-size: 14px; background: rgba(255, 255, 255, 0.12);
-            padding: 12px; border-radius: 15px; margin-bottom: 20px; line-height: 1.5;
-            color: #e0f2f1; border: 1px dashed rgba(255, 255, 255, 0.2);
-        }
-
-        /* Giriş ve Panel Elemanları */
-        .input-group { text-align: left; margin-bottom: 15px; width: 100%; }
-        label { display: block; font-size: 13px; margin-bottom: 6px; margin-left: 8px; font-weight: 500; }
-        input {
-            width: 100%; padding: 14px; background: rgba(255, 255, 255, 0.95);
-            border: none; border-radius: 15px; font-size: 16px; color: #2c3e50;
-            box-sizing: border-box; outline: none;
-        }
-
-        /* Butonlar */
-        .btn-action {
-            width: 100%; padding: 16px; border: none; border-radius: 20px;
-            font-size: 18px; font-weight: bold; cursor: pointer;
-            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
-            color: white; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); transition: 0.2s;
-        }
-        .btn-action:active { transform: scale(0.97); }
-        .btn-qr { margin-top: 15px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); font-size: 14px; }
-
-        /* Ekonomi ve Video Alanı */
-        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
-        .stat-box { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
-        .stat-val { display: block; font-size: 20px; font-weight: bold; color: #fccb90; }
+        .glass-card { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 30px; padding: 25px; width: 100%; max-width: 450px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); box-sizing: border-box; margin-bottom: 20px; }
         
-        #video-stream {
-            width: 100%; height: 200px; background: #121212; border-radius: 15px;
-            display: flex; align-items: center; justify-content: center; margin: 15px 0;
-            border: 1px solid #00f2fe; color: #00f2fe; font-size: 13px;
-        }
+        /* Dashboard Düzeni */
+        .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; max-width: 1100px; align-items: start; }
+        @media (min-width: 900px) { .dashboard-grid { grid-template-columns: 1fr 1fr; } }
 
-        .blur-bg { filter: blur(15px); pointer-events: none; }
-        .mic-active { animation: pulse 1.5s infinite; background: #ff4b2b !important; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        /* Mesajlaşma Alanı (Kelime Dedektifi) */
+        .chat-container { display: flex; flex-direction: column; height: 300px; background: rgba(0,0,0,0.2); border-radius: 20px; padding: 15px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.1); }
+        .chat-messages { flex: 1; overflow-y: auto; padding-right: 10px; margin-bottom: 10px; font-size: 14px; text-align: left; }
+        .msg { background: rgba(255,255,255,0.1); padding: 8px 12px; border-radius: 12px; margin-bottom: 8px; max-width: 80%; }
+        .chat-input-area { display: flex; gap: 8px; }
+        .chat-input { flex: 1; padding: 10px; border-radius: 12px; border: none; outline: none; background: rgba(255,255,255,0.9); color: #333; }
+        .btn-send { background: #00f2fe; border: none; padding: 10px 15px; border-radius: 12px; cursor: pointer; font-weight: bold; }
+
+        /* Stat ve Paralar */
+        .stat-box { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .economy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+        .economy-item { background: rgba(255,255,255,0.08); padding: 10px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        .economy-item strong { color: #fccb90; }
+
+        .pedagog-note { font-size: 12px; font-style: italic; opacity: 0.8; border-left: 3px solid #00f2fe; padding-left: 10px; margin-top: 10px; text-align: left; }
     </style>
 </head>
 <body>
 
     <div id="loginPage" class="page active">
-        <div class="discovery-card" id="main-card">
+        <div class="glass-card">
             <h2>Keşif Kapısı</h2>
-            <div class="pedagog-message">"Hoş geldin araştırmacı! Bugün hangi yeni bilgiyi keşfedeceğiz? Karargah seni bekliyor."</div>
-            
-            <div class="input-group">
-                <label>Araştırmacı Adı</label>
-                <input type="text" id="username" placeholder="İsmini buraya yazabilirsin">
-            </div>
-            <div class="input-group">
-                <label>Gizli Anahtar (Şifre)</label>
-                <input type="password" id="password" placeholder="Şifreni buraya yazabilirsin">
-            </div>
-
-            <button class="btn-action" onclick="baslat()">Maceraya Başla</button>
-            <button class="btn-action btn-qr" onclick="seviyeTespit()">Karekod ile Seviye Tespit</button>
-            <p style="font-size: 11px; margin-top: 20px; opacity: 0.8;">Senin gelişimin, bizim en büyük mutluluğumuz.</p>
+            <input type="text" id="username" placeholder="Araştırmacı Adı" style="width:100%; padding:14px; border-radius:15px; border:none; margin-bottom:15px;">
+            <button onclick="macerayaBasla()" style="width:100%; padding:16px; border:none; border-radius:20px; background:linear-gradient(to right, #4facfe, #00f2fe); color:white; font-weight:bold; cursor:pointer;">Maceraya Başla</button>
         </div>
     </div>
 
     <div id="dashPage" class="page">
-        <div class="discovery-card">
-            <h3 id="displayUser" style="color: #00f2fe; margin-bottom: 5px;">Araştırmacı</h3>
-            <p style="font-size: 12px; margin-bottom: 15px;">1. Sınıf Kaşif | Karargah Çevrimiçi</p>
+        <div class="dashboard-grid">
+            
+            <div class="glass-card">
+                <h3 style="color: #00f2fe; margin-bottom: 5px;">Kişisel Kumbaram</h3>
+                <p id="welcomeMsg" style="font-size: 12px; margin-bottom: 20px; opacity: 0.8;">1. Sınıf Kaşif</p>
+                
+                <div class="stat-box"><span>Bilgi Puanı (XP):</span><strong>1250</strong></div>
+                <div class="stat-box"><span>Birikmiş PUL:</span><strong>45</strong></div>
 
-            <div class="stats">
-                <div class="stat-box"><span class="stat-val">1250</span><small>XP PUANI</small></div>
-                <div class="stat-box"><span class="stat-val">45</span><small>PUL BAKİYE</small></div>
+                <div class="economy-grid">
+                    <div class="economy-item"><span>100 PUL</span><strong>10 Adet</strong></div>
+                    <div class="economy-item"><span>50 PUL</span><strong>4 Adet</strong></div>
+                    <div class="economy-item"><span>20 PUL</span><strong>2 Adet</strong></div>
+                    <div class="economy-item"><span>5 PUL</span><strong>1 Adet</strong></div>
+                </div>
+                <div class="pedagog-note">"Her XP, senin merakının bir meyvesidir."</div>
             </div>
 
-            <div id="video-stream">🛡️ Güvenli Keşif Hattı Aktif</div>
-
-            <div class="controls" style="display: flex; gap: 10px; margin-top: 10px;">
-                <button onclick="toggleMic()" id="mic-btn" style="flex:1; padding: 12px; border-radius: 12px; border:none; background:#4facfe; color:white; font-weight:bold;">Sesi Aç</button>
-                <button onclick="endCall()" style="flex:1; padding: 12px; border-radius: 12px; border:none; background:#ff4b2b; color:white; font-weight:bold;">Keşfi Bitir</button>
+            <div class="glass-card">
+                <h3 style="color: #00f2fe;">Kelime Dedektifi</h3>
+                <p style="font-size: 12px; opacity:0.8;">Burada paylaşılan mesajlar 1 hafta sonra silinir.</p>
+                
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMsgs">
+                        <div class="msg">Merhaba araştırmacı! Bugün nasılsın?</div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="chatInput" class="chat-input" placeholder="Mesajını yaz...">
+                        <button class="btn-send" onclick="mesajGonder()">🚀</button>
+                    </div>
+                </div>
+                
+                <div class="pedagog-note">"Doğru yazdığın her kelime Karargah'ta parlar!"</div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button style="flex:1; padding:10px; border-radius:10px; border:none; background:#ff4b2b; color:white; font-size:12px; cursor:pointer;" onclick="location.reload()">Güvenli Çıkış</button>
+                </div>
             </div>
 
-            <div class="pedagog-message" style="margin-top: 20px; font-size: 12px;">"Bu görüşme sadece şu an için var. Bittikten sonra her şey Yıldız Tozu olup uçacak."</div>
         </div>
     </div>
 
     <script>
-        function baslat() {
+        function macerayaBasla() {
             const user = document.getElementById('username').value;
-            if(user) {
-                document.getElementById('displayUser').innerText = user;
-                document.getElementById('main-card').classList.add('blur-bg');
+            if(user.trim() !== "") {
+                document.getElementById('welcomeMsg').innerText = user + " | 1. Sınıf Kaşif";
+                document.getElementById('loginPage').classList.remove('active');
+                document.getElementById('dashPage').classList.add('active');
+            } else { alert("İsmini yazmayı unuttun kaşif!"); }
+        }
+
+        function mesajGonder() {
+            const input = document.getElementById('chatInput');
+            const msgs = document.getElementById('chatMsgs');
+            if(input.value.trim() !== "") {
+                const newMsg = document.createElement('div');
+                newMsg.className = 'msg';
+                newMsg.style.marginLeft = 'auto';
+                newMsg.style.background = 'rgba(0, 242, 254, 0.2)';
+                newMsg.innerText = input.value;
+                msgs.appendChild(newMsg);
+                input.value = "";
+                msgs.scrollTop = msgs.scrollHeight;
+                
+                // Küçük bir teşvik mesajı (Kelime Dedektifi)
                 setTimeout(() => {
-                    document.getElementById('loginPage').classList.remove('active');
-                    document.getElementById('dashPage').classList.add('active');
-                    document.getElementById('main-card').classList.remove('blur-bg');
+                    const reply = document.createElement('div');
+                    reply.className = 'msg';
+                    reply.innerText = "Harika yazıyorsun! ✨";
+                    msgs.appendChild(reply);
+                    msgs.scrollTop = msgs.scrollHeight;
                 }, 1000);
-            } else {
-                alert("Seni tanıyabilmemiz için ismini yazmaya ne dersin?");
             }
         }
-
-        function toggleMic() {
-            const btn = document.getElementById('mic-btn');
-            btn.classList.toggle('mic-active');
-            btn.innerText = btn.classList.contains('mic-active') ? "Sesi Kapat" : "Sesi Aç";
-        }
-
-        function endCall() {
-            if(confirm("Görüşmeyi bitirmek ve tüm izleri 'Yıldız Tozu' ile silmek ister misin?")) {
-                document.getElementById('video-stream').innerHTML = "✨ Yıldız Tozu Protokolü Devrede...";
-                setTimeout(() => { location.reload(); }, 1500);
-            }
-        }
-
-        function seviyeTespit() { alert("Seviye tespit modülü hazırlanıyor!"); }
     </script>
 </body>
 </html>
