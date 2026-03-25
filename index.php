@@ -1,3 +1,10 @@
+<?php
+/**
+ * Dijital Eğitim Karargahı - Keşif Kapısı
+ * Mimar Yetkisiyle Düzenlenmiştir.
+ */
+header('Content-Type: text/html; charset=utf-8');
+?>
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -74,6 +81,7 @@
             display: flex; justify-content: space-between;
             font-size: 12px; margin: 15px 5px 25px;
             color: #ffffff;
+            align-items: center;
         }
 
         .options a { color: #ffffff; text-decoration: none; opacity: 0.8; font-weight: bold; }
@@ -87,12 +95,13 @@
             font-size: 18px; font-weight: bold; cursor: pointer;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 10px;
         }
 
         .btn-action:active { transform: scale(0.97); }
 
         .btn-qr {
-            margin-top: 15px; background: rgba(255, 255, 255, 0.1);
+            margin-top: 5px; background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.3); font-size: 14px;
         }
 
@@ -118,25 +127,27 @@
                 "Hoş geldin araştırmacı! Bugün hangi yeni bilgiyi keşfedeceğiz? Karargah seni bekliyor."
             </div>
 
-            <div class="input-group">
-                <label>Araştırmacı Adı</label>
-                <input type="text" id="username" placeholder="İsmini buraya yazabilirsin">
-            </div>
+            <form action="dashboard.php" method="POST" id="loginForm">
+                <div class="input-group">
+                    <label>Araştırmacı Adı</label>
+                    <input type="text" name="username" id="username" placeholder="İsmini buraya yazabilirsin" required>
+                </div>
 
-            <div class="input-group">
-                <label>Gizli Anahtar (Şifre)</label>
-                <input type="password" id="password" placeholder="Şifreni buraya yazabilirsin">
-            </div>
+                <div class="input-group">
+                    <label>Gizli Anahtar (Şifre)</label>
+                    <input type="password" name="password" id="password" placeholder="Şifreni buraya yazabilirsin" required>
+                </div>
 
-            <div class="options">
-                <label style="cursor:pointer; display: flex; align-items: center; gap: 5px;">
-                    <input type="checkbox"> Beni Tanı
-                </label>
-                <a href="#" onclick="alert('Şifre hatırlatma talebiniz mimara iletildi.')">Şifremi Hatırlat</a>
-            </div>
+                <div class="options">
+                    <label style="cursor:pointer; display: flex; align-items: center; gap: 5px;">
+                        <input type="checkbox" name="remember"> Beni Tanı
+                    </label>
+                    <a href="#" onclick="alert('Şifre hatırlatma talebiniz mimara iletildi.')">Şifremi Hatırlat</a>
+                </div>
 
-            <button class="btn-action" onclick="baslat()">Maceraya Başla</button>
-            <button class="btn-action btn-qr" onclick="seviyeTespit()">Karekod ile Seviye Tespit</button>
+                <button type="button" class="btn-action" onclick="baslat()">Maceraya Başla</button>
+                <button type="button" class="btn-action btn-qr" onclick="seviyeTespit()">Karekod ile Seviye Tespit</button>
+            </form>
         </div>
 
         <p class="footer-note">
@@ -151,7 +162,7 @@
                 alert("Harika " + user + "! Karargaha girişin hazırlanıyor...");
                 document.getElementById('main-card').classList.add('blur-bg');
                 setTimeout(() => {
-                    window.location.href = 'dashboard.php';
+                    document.getElementById('loginForm').submit();
                 }, 1000);
             } else {
                 alert("Seni tanıyabilmemiz için ismini yazmaya ne dersin? Her şey senin için daha keyifli olacak!");
